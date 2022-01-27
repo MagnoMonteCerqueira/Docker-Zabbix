@@ -1,12 +1,16 @@
-version: '3'
+version: '3.1'
 
 services:
-    zabbix-db:
-     build:
-         context: ./mariadb
-     command: --innodb-use-native-aio=0
-     container_name: zabbix-db
-     restart: always
-     environment: 
-            - MYSQL_DATABASE=zabbix
-            - MYSQL_ROOT_PASSWORD=zabbix
+  mysql:
+    container_name: zabbix-db
+    image: mariadb:10.5
+    ports:
+      - '3306:3306'
+    volumes:
+      - './zabbix/mysql:/var/lib/data'
+    environment:
+      - MYSQL_ROOT_PASSWORD=zabbix
+      - MYSQL_DATABASE=zabbix
+      - MYSQL_USER=zabbix
+      - MYSQL_PASSWORD=zabbix
+
